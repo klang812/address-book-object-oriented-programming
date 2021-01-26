@@ -44,6 +44,10 @@ Contact.prototype.addEmail = function(userEmail) {
   this.email = userEmail;
 }
 
+Contact.prototype.addAddress = function(address) {
+  this.address = address;
+}
+
 // User Interface Logic ------------
 let addressBook = new AddressBook();
 
@@ -64,9 +68,10 @@ function showContact(contactId) {
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
   $(".email").html(contact.email);
+  $(".address").html(contact.address);
   let buttons = $("#buttons");
   buttons.empty();
-  buttons.append("<button class='deleteButton' id=") +  + contact.id + ">Delete</button>";
+  buttons.append("<button class='deleteButton' id=" + contact.id + ">Delete</button>");
 };
 
 function attachContactListeners() {
@@ -87,11 +92,14 @@ $(document).ready(function() {
     const inputtedFirstName = $("input#new-first-name").val();
     const inputtedLastName = $("input#new-last-name").val();
     const inputtedPhoneNumber = $("input#new-phone-number").val();
+    const inputtedAddress = $("input#address").val();
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
+    $("input#address").val("");
     let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
     const inputtedEmail = $("#email").val();
+    newContact.addAddress(inputtedAddress);
     newContact.addEmail(inputtedEmail);
     addressBook.addContact(newContact);
     $("#email").val("");
