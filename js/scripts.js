@@ -33,11 +33,15 @@ AddressBook.prototype.deleteContact = function(id) {
 function Contact(firstName, lastName, phoneNumber) {
   this.firstName = firstName;
   this.lastName = lastName;
-  this.phonenumber = phoneNumber;
+  this.phoneNumber = phoneNumber;
 }
 
 Contact.prototype.fullName = function() {
   return this.firstName + " " + this.lastName;
+}
+
+Contact.prototype.addEmail = function(userEmail) {
+  this.email = userEmail;
 }
 
 // User Interface Logic ------------
@@ -59,10 +63,11 @@ function showContact(contactId) {
   $(".first-name").html(contact.firstName);
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
+  $(".email").html(contact.email);
   let buttons = $("#buttons");
   buttons.empty();
   buttons.append("<button class='deleteButton' id=") +  + contact.id + ">Delete</button>";
-}
+};
 
 function attachContactListeners() {
   $("ul#contacts").on("click", "li", function() {
@@ -75,7 +80,6 @@ function attachContactListeners() {
   });
 };
 
-
 $(document).ready(function() {
   attachContactListeners();
   $("form#new-contact").submit(function(event) {
@@ -87,7 +91,10 @@ $(document).ready(function() {
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
     let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
-    AddressBook.addContact(newContact);
+    const inputtedEmail = $("#email").val();
+    newContact.addEmail(inputtedEmail);
+    addressBook.addContact(newContact);
+    $("#email").val("");
     displayContactDetails(addressBook);
-  })
-})
+  });
+});
